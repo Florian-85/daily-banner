@@ -22,6 +22,44 @@ configuration.
 4. **Deterministic and offline.** The same date and the same configuration always give the same picture.
 5. **Safe to merge.** A contributed scene is data, validated and sanitized by CI before a human reads it.
 
+## Decisions taken with the owner
+
+| Date | Decision |
+|---|---|
+| 2026-10-20 | Text: outlines by default, system fonts as the fallback, embedded subset font designed in from the start (tested on GitHub). |
+| 2026-10-20 | Mascots: capabilities (anchors) rather than categories; three formats; three anchor levels. |
+| 2026-10-20 | Reusable assets declared once in a catalogue; banners assembled à la carte; the `pack/asset` naming scheme is accepted. |
+| 2026-10-20 | **Five launch fonts** (below). |
+| 2026-10-20 | **The first starter mascot is a cat.** |
+
+### Launch fonts (licence checked on 2026-10-20)
+
+All are under the SIL Open Font License 1.1 **without a Reserved Font Name**, so a subset can keep its name.
+
+| Role | Font | Notes |
+|---|---|---|
+| Sans | **Poppins** | static files (Regular, Bold), geometric, very readable |
+| Serif | **Spectral** | made for screens, elegant, no reserved name |
+| Rounded | **Nunito** | friendly; distributed as a variable font |
+| Handwriting | **Caveat** | casual handwriting; distributed as a variable font |
+| Pixel | **Silkscreen** | pixel look, Regular and Bold (capitals style); **VT323** is the alternative with true lowercase |
+
+Fonts checked and **rejected** because they carry a Reserved Font Name (a subset would have to be renamed): Lora, Playfair
+Display, Quicksand, Press Start 2P, Merriweather, Libre Baskerville, Bitter.
+
+Rules for the launch set:
+
+- **Two weights at most** per font (Regular and Bold) to keep the data small.
+- **Variable fonts** (Nunito, Caveat) give only their default instance unless we apply the variation tables (extra work): prefer static builds of the same fonts when they exist, otherwise ship Regular only.
+- Each font keeps its licence file and its authors' copyright next to its data, and the gallery lists the attribution.
+
+### First starter mascot: the cat
+
+An original drawing (no existing character). It declares the standard anchors so the largest number of scenes work on it:
+`head-top`, `ear-left`, `ear-right`, `eye-left`, `eye-right`, `nose`, `mouth`, `whisker-left`, `whisker-right`, `paw-left`,
+`paw-right`, `back`, `tail`, `base`. Format: SVG drawing with named anchors, which also proves the second mascot format
+(the constellation is the first).
+
 ## Layout and anchors
 
 The engine builds a small scene graph from the configuration and exposes named anchors, each with a position and a size.
@@ -275,12 +313,12 @@ and proposed to a pack by pull request.
 
 ## Open questions
 
-1. **Launch fonts**: which 3 to 5 (a sans, a serif, a rounded, a handwriting, a pixel font?), and for each one the licence check (reserved name, embedding).
-2. **Starter mascots** to draw first (constellation, cat, robot, planet, plant, rocket, cloud, mug).
-3. **Asset index and ids**: naming scheme (`pack/asset`), versioning of a pack, what happens to a variant when an asset it uses is deprecated.
-4. How strict is "identical output" when migrating the first six scenes? A pure code move must be byte-identical; generalising the layout will move some pixels. Proposal: byte-identical for the move, a visual tolerance afterwards.
-5. Does the highlighted letter always exist? Names with a single word: fall back to the first letter?
-6. Who reviews religious and cultural packs, and what is the guideline?
+1. **Asset versions**: how a pack is versioned and what happens to a variant when an asset it uses is deprecated.
+2. **Migration of the first six scenes**: a pure code move must be byte-identical; generalising the layout will move some pixels. Proposal: byte-identical for the move, a visual tolerance afterwards.
+3. **The highlighted letter**: does it always exist? For a single-word name, fall back to the first letter?
+4. **Variable fonts**: apply the variation tables to offer Bold for Nunito and Caveat, or keep Regular only?
+5. **Cultural and religious packs**: who reviews them and with which guideline?
+6. **Cat**: the exact drawing (a sitting cat seen from the front is the simplest to anchor; a side view allows a tail and a back).
 
 ## Suggested order
 
