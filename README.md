@@ -18,6 +18,10 @@
 - Personal dates stay in your own private configuration and are never written in the output or the logs.
 - Public packs use no trademarked names or characters.
 
+## Documents
+
+- [Design: anchors, variants and community scenes](docs/design-anchors-variants.md)
+
 ## Roadmap
 
 See the issues. The first one defines the pack format, declarative scenes and the clean separation from my private homelab.
