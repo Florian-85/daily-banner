@@ -139,10 +139,70 @@ element count above the budget. Anything else fails CI.
 - **Reduced motion**: render a static fallback and, where the viewer's browser allows it, honour `prefers-reduced-motion`.
 - **Text alternative**: the banner always carries a title and a description.
 
+## Text rendering: the options compared
+
+The user types the text in the configuration (name, headline phrases); the engine decides how it becomes pixels.
+
+| | **A. System fonts** (`<text>`) | **B. Outlines** (letters drawn as paths) | **C. Embedded font subset** (`@font-face` inside the SVG) |
+|---|---|---|---|
+| How | The viewer's own fonts draw the text | At build time the engine turns each typed letter into a vector shape from a bundled open-licensed font | A subset font is embedded in the SVG as base64 |
+| Look | Differs between devices | **Identical everywhere** | Identical everywhere |
+| Anchors (letter box, mascot spacing) | Approximate: widths are forced with `textLength`, which stretches glyphs when the estimate is wrong | **Exact**: every glyph has a known box | Exact if the engine also knows the metrics |
+| Per-letter effects (a letter falls, bleeds, waves, is hit by a blade) | Possible only if each such letter is its own element | **Natural**: each letter is its own shape | Same as A |
+| Scripts | Any script, the viewer's font fallback handles it | Latin, Cyrillic, Greek with accents; CJK with a large font; **no** Arabic, Hebrew or Indic scripts (they need a shaping engine) | Whatever the font covers |
+| Selectable / searchable text | Yes | No (an `aria-label` and a `<title>` carry the text) | Yes |
+| Weight of the image | Tiny | A few KB for a name | 20 to 100 KB per font, unless subsetted |
+| Cost to build | Already done | A glyph table per font (extracted once, shipped as data) and a small layout routine: **no runtime dependency** | Needs a font subsetting tool at generation time (a dependency), and **GitHub rendering of embedded fonts must be tested first** |
+| Font choice for the user | Their system fonts, unpredictable | A short list of bundled fonts (sans, serif, rounded, handwriting, pixel) | Same as B |
+
+**Proposal: B for the banner headline and name, A for everything small, with an automatic fallback to A when the text
+contains characters the bundled fonts do not cover.** Small texts (labels, card captions) stay system text: at 11 to 13 px
+they gain nothing from outlines. C is worth a quick test later if selectable text matters.
+
+How B works for "the user writes whatever they want": the engine ships, for each bundled font, a table with the outline,
+the advance width and the kerning pairs of each supported character, extracted once at authoring time. At generation
+time it reads the configured text, lays the letters out (with kerning, auto-fit to the available width, line wrap), draws
+them as paths and publishes the exact box of every letter as anchors. A user who wants another font adds it through an
+optional build step that reads a `.ttf` file; the default path needs no dependency.
+
+Licensing: bundle only fonts whose licence (SIL OFL or similar) allows outlining and redistribution, and keep the licence
+files next to the glyph tables.
+
+## Mascots: capabilities, not categories
+
+A hard category list ("living", "object", "stellar") forces arbitrary limits: a robot is both an object and a creature, a
+tree has a top but no face. Instead, **what a mascot can do is decided by the anchors it declares**.
+
+**Formats in version 1** (a mascot is data in a pack):
+
+1. **Constellation**: points and lines (what exists today).
+2. **SVG drawing** with named anchors (`<g id="anchor-head-top">`, or a list in the manifest).
+3. **Pixel art**: a small grid written as text or JSON (for example 16 by 16), drawn as squares. The lowest bar for a contributor: no drawing tool needed.
+
+Raster images are not supported (they cannot be animated cleanly and are heavy).
+
+**Three levels of anchors**:
+
+| Level | Source | What it unlocks |
+|---|---|---|
+| 0. Bounding box | automatic for every mascot: `top`, `bottom`, `left`, `right`, `center` | generic effects: tip over, shake, spin, pulse, glow, tint, snow on top, drips from the bottom, sparkles around, fog, water level |
+| 1. Standard names | declared by the mascot: `head-top`, `eye-left`, `eye-right`, `nose` or `mouth`, `hand-left`, `hand-right`, `feet`, `base`, `back`, `tail` | accessories: a hat, a snorkel, a held object, a scarf, blinking, waving |
+| 2. Custom names | free | scenes written for one specific mascot |
+
+**Compatibility is computed, not declared by the user.** A variant lists the anchors it `requires`; the engine only
+offers it to mascots that have them (and uses the level 0 fallback for optional layers). The gallery shows, for each
+variant, which mascots it works with. A variant can also carry a hint such as `for: creature` or `for: any`, derived from
+the anchors it needs, so contributors know what to target.
+
+**Starter library** (original or CC0 drawings only, no brand character): a star constellation, a cat, a robot, a planet, a
+plant, a rocket, a cloud, a mug. A mascot pack is a pack like any other.
+
+**Trademarks**: a mascot or an accessory that evokes a third-party character stays in the owner's private pack.
+
 ## Open questions
 
-1. Outline mode or system-font mode for Latin text (exactness against flexibility)?
-2. Which mascot types in version 1: constellation only, or any SVG drawing with named anchors?
+1. Text: confirm the proposal (outlines for the headline and name, system text for small labels, automatic fallback). Which 3 to 5 launch fonts, and is the embedded-font option (C) worth a test on GitHub?
+2. Mascots: confirm the three formats (constellation, SVG with named anchors, pixel art) and the three anchor levels. Which starter mascots to draw first?
 3. How strict is "identical output" when migrating the first six scenes? A pure code move must be byte-identical; generalising the layout will move some pixels. Proposal: byte-identical for the move, a visual tolerance afterwards.
 4. Does the highlighted letter always exist? Names with a single word: fall back to the first letter?
 5. Who reviews religious and cultural packs, and what is the guideline?
