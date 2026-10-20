@@ -1,0 +1,133 @@
+{
+  "projects": [
+    {
+      "id": "alpha",
+      "name": "Project Alpha",
+      "repo": "acme/alpha",
+      "shown": true,
+      "status": "soon",
+      "tags": [
+        "Python",
+        "CLI"
+      ],
+      "desc": {
+        "fr": [
+          "Description d'exemple du projet Alpha,",
+          "en deux lignes courtes."
+        ],
+        "en": [
+          "Sample description of project Alpha,",
+          "in two short lines."
+        ]
+      }
+    },
+    {
+      "id": "beta",
+      "name": "Project Beta",
+      "repo": "acme/beta",
+      "shown": true,
+      "status": "planned",
+      "tags": [
+        "Python",
+        "CLI",
+        "GitHub Actions"
+      ],
+      "desc": {
+        "fr": [
+          "Description d'exemple du projet Beta,",
+          "en deux lignes courtes."
+        ],
+        "en": [
+          "Sample description of project Beta,",
+          "in two short lines."
+        ]
+      }
+    },
+    {
+      "id": "gamma",
+      "name": "Project Gamma",
+      "repo": "acme/gamma",
+      "shown": true,
+      "status": "planned",
+      "tags": [
+        "Python",
+        "CLI"
+      ],
+      "desc": {
+        "fr": [
+          "Description d'exemple du projet Gamma,",
+          "en deux lignes courtes."
+        ],
+        "en": [
+          "Sample description of project Gamma,",
+          "in two short lines."
+        ]
+      }
+    },
+    {
+      "id": "delta",
+      "name": "Project Delta",
+      "repo": "acme/delta",
+      "shown": true,
+      "status": "private",
+      "tags": [
+        "Python",
+        "CLI",
+        "GitHub Actions"
+      ],
+      "desc": {
+        "fr": [
+          "Description d'exemple du projet Delta,",
+          "en deux lignes courtes."
+        ],
+        "en": [
+          "Sample description of project Delta,",
+          "in two short lines."
+        ]
+      }
+    },
+    {
+      "id": "epsilon",
+      "name": "Project Epsilon",
+      "repo": "acme/epsilon",
+      "shown": true,
+      "status": "docs",
+      "tags": [
+        "Python",
+        "CLI"
+      ],
+      "desc": {
+        "fr": [
+          "Description d'exemple du projet Epsilon,",
+          "en deux lignes courtes."
+        ],
+        "en": [
+          "Sample description of project Epsilon,",
+          "in two short lines."
+        ]
+      }
+    },
+    {
+      "id": "zeta",
+      "name": "Project Zeta",
+      "repo": "acme/zeta",
+      "shown": true,
+      "status": "private",
+      "tags": [
+        "Python",
+        "CLI",
+        "GitHub Actions"
+      ],
+      "desc": {
+        "fr": [
+          "Description d'exemple du projet Zeta,",
+          "en deux lignes courtes."
+        ],
+        "en": [
+          "Sample description of project Zeta,",
+          "in two short lines."
+        ]
+      }
+    }
+  ]
+}

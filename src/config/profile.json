@@ -1,0 +1,423 @@
+{
+  "name": "Florian B.",
+  "profileRepo": "example/example",
+  "defaults": {
+    "lang": "en",
+    "theme": "dark"
+  },
+  "discussionsUrl": "https://github.com/example/example/discussions",
+  "statuses": {
+    "soon": {
+      "fr": "Bientôt public",
+      "en": "Public soon",
+      "hot": true
+    },
+    "planned": {
+      "fr": "Public prévu",
+      "en": "Public planned",
+      "hot": true
+    },
+    "private": {
+      "fr": "Privé",
+      "en": "Private",
+      "hot": false
+    },
+    "public": {
+      "fr": "Public",
+      "en": "Public",
+      "hot": true
+    },
+    "docs": {
+      "fr": "Notes & docs",
+      "en": "Notes & docs",
+      "hot": false
+    },
+    "early": {
+      "fr": "En cadrage",
+      "en": "Early stage",
+      "hot": false
+    },
+    "proto": {
+      "fr": "Prototype",
+      "en": "Prototype",
+      "hot": false
+    },
+    "paused": {
+      "fr": "En pause",
+      "en": "On hold",
+      "hot": false
+    }
+  },
+  "i18n": {
+    "en": {
+      "phrases": [
+        "Automation",
+        "Infrastructure & homelab",
+        "Applied AI for software dev",
+        "Technical products"
+      ],
+      "sub": "I build, automate and document.",
+      "location": "Sample City · Earth",
+      "stackRows": {
+        "languages": "LANGUAGES",
+        "frameworks": "FRAMEWORKS & TOOLS",
+        "infra": "INFRA & OPS",
+        "tooling": "TOOLING & CI",
+        "automation": "AUTOMATION & AI"
+      },
+      "stackItems": {
+        "sysadmin": "System administration",
+        "monitoring": "Monitoring",
+        "agents": "AI agents (Codex)",
+        "selfHost": "Self-hosting"
+      },
+      "statsLabels": [
+        "Stars received",
+        "Commits",
+        "Pull requests",
+        "Issues",
+        "Repositories"
+      ],
+      "streakLabels": {
+        "contributions": "Contributions",
+        "since": "since June 2013",
+        "current": "Current streak (days)",
+        "longest": "Longest streak"
+      },
+      "card": {
+        "commits": "commits",
+        "updates": "updates",
+        "activity": "of activity",
+        "issueClosed": [
+          "issue closed",
+          "issues closed"
+        ],
+        "lines": "lines",
+        "weeks": [
+          "week",
+          "weeks"
+        ],
+        "months": [
+          "month",
+          "months"
+        ],
+        "years": [
+          "year",
+          "years"
+        ]
+      },
+      "learning": {
+        "title": "ESPAÑOL · DUOLINGO",
+        "xpSub": "total experience",
+        "streak": "Current streak (days)",
+        "learning": "of learning",
+        "since": "since",
+        "y": "y",
+        "m": "mo"
+      },
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      "journey": [
+        {
+          "title": "Foundation",
+          "lines": [
+            "Studies or training",
+            "that built your base"
+          ]
+        },
+        {
+          "title": "Experience",
+          "lines": [
+            "A first field",
+            "of practice"
+          ]
+        },
+        {
+          "title": "Experience",
+          "lines": [
+            "A second field",
+            "of practice"
+          ]
+        },
+        {
+          "title": "Experience",
+          "lines": [
+            "A third field",
+            "of practice"
+          ]
+        },
+        {
+          "title": "Side projects",
+          "lines": [
+            "What you build",
+            "on your own time"
+          ]
+        }
+      ],
+      "readme": {
+        "altBanner": "Sample Person: automation, infrastructure, applied AI.",
+        "tagline": "Sample tagline: what you do, in one sentence.",
+        "nav": [
+          "Projects",
+          "Stack",
+          "Journey",
+          "Self-learning",
+          "Activity",
+          "Contact"
+        ],
+        "anchors": [
+          "-projects",
+          "-stack",
+          "-journey",
+          "-self-learning",
+          "-activity",
+          "-contact"
+        ],
+        "intro": "Sample introduction. Describe who you are, what you build and what you are looking for, in two or three sentences.",
+        "now": "Right now",
+        "nowItems": [
+          "Sample: what you are working on",
+          "Sample: another current project",
+          "Sample: what you would like to talk about"
+        ],
+        "headings": [
+          "🚀 Projects",
+          "🧰 Stack",
+          "🧭 Journey",
+          "🎓 Self-learning",
+          "📈 Activity",
+          "📬 Contact"
+        ],
+        "legend": "★ filled = public repository · ☆ hollow = private for now. Cards light up automatically when a repository goes public.",
+        "contact": "💬 Contact me via GitHub Discussions",
+        "other": "🇫🇷 Version française",
+        "otherFile": "README.fr.md"
+      },
+      "scenePhrases": {
+        "noel": [
+          "Merry Christmas!"
+        ],
+        "halloween": [
+          "Happy Halloween!"
+        ],
+        "avril": [
+          "April Fools!",
+          "Works on my machine",
+          "I automate my naps",
+          "sudo make me a sandwich",
+          "No bugs, only features"
+        ],
+        "mai4": [
+          "May the Force be with you"
+        ],
+        "pi": [
+          "π = 3.14159265358979…"
+        ]
+      },
+      "sceneMode": {
+        "noel": "prefix",
+        "halloween": "prefix",
+        "avril": "replace",
+        "mai4": "prefix",
+        "pi": "prefix"
+      }
+    },
+    "fr": {
+      "phrases": [
+        "Automatisation",
+        "Infrastructure & homelab",
+        "IA appliquée au développement",
+        "Produits techniques"
+      ],
+      "sub": "Je construis, j'automatise, je documente.",
+      "location": "Ville d'exemple · Terre",
+      "stackRows": {
+        "languages": "LANGAGES",
+        "frameworks": "FRAMEWORKS & OUTILS",
+        "infra": "INFRA & OPS",
+        "tooling": "OUTILLAGE & CI",
+        "automation": "AUTOMATISATION & IA"
+      },
+      "stackItems": {
+        "sysadmin": "Administration système",
+        "monitoring": "Supervision",
+        "agents": "Agents IA (Codex)",
+        "selfHost": "Auto-hébergement"
+      },
+      "statsLabels": [
+        "Étoiles reçues",
+        "Commits",
+        "Pull requests",
+        "Issues",
+        "Dépôts"
+      ],
+      "streakLabels": {
+        "contributions": "Contributions",
+        "since": "depuis juin 2013",
+        "current": "Série actuelle (jours)",
+        "longest": "Plus longue série"
+      },
+      "card": {
+        "commits": "commits",
+        "updates": "mises à jour",
+        "activity": "d'activité",
+        "issueClosed": [
+          "issue fermée",
+          "issues fermées"
+        ],
+        "lines": "lignes",
+        "weeks": [
+          "semaine",
+          "semaines"
+        ],
+        "months": [
+          "mois",
+          "mois"
+        ],
+        "years": [
+          "an",
+          "ans"
+        ]
+      },
+      "learning": {
+        "title": "ESPAÑOL · DUOLINGO",
+        "xpSub": "expérience totale",
+        "streak": "Série en cours (jours)",
+        "learning": "d'apprentissage",
+        "since": "depuis",
+        "y": "ans",
+        "m": "mois"
+      },
+      "months": [
+        "janv.",
+        "févr.",
+        "mars",
+        "avr.",
+        "mai",
+        "juin",
+        "juil.",
+        "août",
+        "sept.",
+        "oct.",
+        "nov.",
+        "déc."
+      ],
+      "journey": [
+        {
+          "title": "Socle",
+          "lines": [
+            "Études ou formation",
+            "qui ont fait votre base"
+          ]
+        },
+        {
+          "title": "Expérience",
+          "lines": [
+            "Un premier domaine",
+            "de pratique"
+          ]
+        },
+        {
+          "title": "Expérience",
+          "lines": [
+            "Un deuxième domaine",
+            "de pratique"
+          ]
+        },
+        {
+          "title": "Expérience",
+          "lines": [
+            "Un troisième domaine",
+            "de pratique"
+          ]
+        },
+        {
+          "title": "Projets perso",
+          "lines": [
+            "Ce que vous construisez",
+            "sur votre temps libre"
+          ]
+        }
+      ],
+      "readme": {
+        "altBanner": "Personne Exemple : automatisation, infrastructure, IA appliquée.",
+        "tagline": "Accroche d'exemple : ce que vous faites, en une phrase.",
+        "nav": [
+          "Projets",
+          "Stack",
+          "Parcours",
+          "Auto-apprentissage",
+          "Activité",
+          "Contact"
+        ],
+        "anchors": [
+          "-projets",
+          "-stack",
+          "-parcours",
+          "-auto-apprentissage",
+          "-activité",
+          "-contact"
+        ],
+        "intro": "Introduction d'exemple. Dites qui vous êtes, ce que vous construisez et ce que vous cherchez, en deux ou trois phrases.",
+        "now": "En ce moment",
+        "nowItems": [
+          "Exemple : ce sur quoi vous travaillez",
+          "Exemple : un autre projet en cours",
+          "Exemple : un sujet dont vous aimez parler"
+        ],
+        "headings": [
+          "🚀 Projets",
+          "🧰 Stack",
+          "🧭 Parcours",
+          "🎓 Auto-apprentissage",
+          "📈 Activité",
+          "📬 Contact"
+        ],
+        "legend": "★ plein = dépôt public · ☆ creux = privé pour l'instant. Les cartes s'allument toutes seules quand un dépôt devient public.",
+        "contact": "💬 Me contacter via GitHub Discussions",
+        "other": "🇬🇧 English version",
+        "otherFile": "README.md"
+      },
+      "scenePhrases": {
+        "noel": [
+          "Joyeux Noël !"
+        ],
+        "halloween": [
+          "Joyeux Halloween !"
+        ],
+        "avril": [
+          "Poisson d'avril !",
+          "Ça marche sur ma machine",
+          "J'automatise ma sieste",
+          "sudo fais-moi un sandwich",
+          "Zéro bug, que des features"
+        ],
+        "mai4": [
+          "Que la Force soit avec toi"
+        ],
+        "pi": [
+          "π = 3,14159265358979…"
+        ]
+      },
+      "sceneMode": {
+        "noel": "prefix",
+        "halloween": "prefix",
+        "avril": "replace",
+        "mai4": "prefix",
+        "pi": "prefix"
+      }
+    }
+  }
+}

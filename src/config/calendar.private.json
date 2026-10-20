@@ -1,0 +1,15 @@
+{
+  "note": "SAMPLE with invented dates. Real personal dates live in the owner's private configuration and must never be committed here.",
+  "events": [
+    {
+      "id": "private",
+      "scene": "anniv",
+      "theme": "funky",
+      "dates": [
+        "04-19",
+        "08-23",
+        "11-27"
+      ]
+    }
+  ]
+}

@@ -2,7 +2,12 @@
 
 > An animated profile banner that changes with the day: a typed headline, a mascot drawn with stars, and special scenes on the dates you choose.
 
-**Status: private incubation.** This engine is being extracted from the generator that builds my own GitHub profile. Nothing here is published yet.
+**Status: private incubation.** The code starts from the generator that builds my own GitHub profile (see [the export notes](docs/export-from-homelab.md)). It still renders one hard-coded name and mascot: making them configurable is the first work item. Nothing here is published yet.
+
+```bash
+npm test              # offline tests
+npm run build:sample  # writes the sample banner and cards into ./out
+```
 
 ## What it is
 
@@ -21,6 +26,7 @@
 ## Documents
 
 - [Design: anchors, variants and community scenes](docs/design-anchors-variants.md)
+- [Export from the Homelab generator](docs/export-from-homelab.md): what was imported, what was left out, what is still tied to the original
 
 ## Roadmap
 

@@ -1,0 +1,11 @@
+{
+  "name": "daily-banner",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Animated profile banner that changes with the day (private incubation).",
+  "scripts": {
+    "test": "node --test src/*.test.cjs",
+    "build:sample": "node src/build-profile.cjs --out out --date 2026-10-31"
+  },
+  "engines": { "node": ">=20" }
+}

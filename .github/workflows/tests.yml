@@ -1,0 +1,28 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      # Offline only: no secret, no token, no network call.
+      - name: Unit tests
+        run: node --test src/*.test.cjs
+
+      - name: Build the sample profile
+        run: |
+          node src/build-profile.cjs --out "$RUNNER_TEMP/out" --date 2026-02-10
+          count="$(find "$RUNNER_TEMP/out" -name '*.svg' | wc -l)"
+          test "$count" -ge 40 || { echo "::error::Only $count SVG files generated"; exit 1; }

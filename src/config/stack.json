@@ -1,0 +1,224 @@
+{
+  "note": "rows = pastilles affichées. Ajouts uniquement : la détection n'enlève jamais rien. Un élément {\"i18n\": \"clé\"} est traduit depuis profile.json (stackItems).",
+  "thresholds": {
+    "note": "Une technologie n'entre dans la stack que si elle apparaît dans un projet qui a pris de l'ampleur (pas un début de projet). Un projet compte quand il atteint les deux seuils.",
+    "minCommits": 50,
+    "minBytes": 500000,
+    "minLanguageBytes": 2000
+  },
+  "rows": {
+    "languages": [
+      "Python",
+      "TypeScript",
+      "JavaScript"
+    ],
+    "frameworks": [
+      "React",
+      "Django"
+    ],
+    "infra": [
+      "Linux",
+      "Docker",
+      {
+        "i18n": "sysadmin"
+      },
+      {
+        "i18n": "monitoring"
+      }
+    ],
+    "tooling": [
+      "GitHub Actions",
+      "Playwright"
+    ],
+    "automation": [
+      {
+        "i18n": "agents"
+      },
+      {
+        "i18n": "selfHost"
+      }
+    ]
+  },
+  "dictionary": {
+    "Python": {
+      "item": "Python",
+      "row": "languages"
+    },
+    "TypeScript": {
+      "item": "TypeScript",
+      "row": "languages"
+    },
+    "JavaScript": {
+      "item": "JavaScript",
+      "row": "languages"
+    },
+    "PHP": {
+      "item": "PHP",
+      "row": "languages"
+    },
+    "Shell": {
+      "item": "Shell",
+      "row": "languages"
+    },
+    "Go": {
+      "item": "Go",
+      "row": "languages"
+    },
+    "Rust": {
+      "item": "Rust",
+      "row": "languages"
+    },
+    "Java": {
+      "item": "Java",
+      "row": "languages"
+    },
+    "C#": {
+      "item": "C#",
+      "row": "languages"
+    },
+    "Kotlin": {
+      "item": "Kotlin",
+      "row": "languages"
+    },
+    "Swift": {
+      "item": "Swift",
+      "row": "languages"
+    },
+    "Svelte": {
+      "item": "Svelte",
+      "row": "frameworks"
+    },
+    "Vue": {
+      "item": "Vue",
+      "row": "frameworks"
+    },
+    "React": {
+      "item": "React",
+      "row": "frameworks"
+    },
+    "Laravel": {
+      "item": "Laravel",
+      "row": "frameworks"
+    },
+    "WordPress": {
+      "item": "WordPress",
+      "row": "frameworks"
+    },
+    "Streamlit": {
+      "item": "Streamlit",
+      "row": "frameworks"
+    },
+    "FFmpeg": {
+      "item": "FFmpeg",
+      "row": "frameworks"
+    },
+    "Django": {
+      "item": "Django",
+      "row": "frameworks"
+    },
+    "FastAPI": {
+      "item": "FastAPI",
+      "row": "frameworks"
+    },
+    "Docker": {
+      "item": "Docker",
+      "row": "infra"
+    },
+    "Dockerfile": {
+      "item": "Docker",
+      "row": "infra"
+    },
+    "Proxmox": {
+      "item": "Proxmox",
+      "row": "infra"
+    },
+    "Terraform": {
+      "item": "Terraform",
+      "row": "infra"
+    },
+    "Ansible": {
+      "item": "Ansible",
+      "row": "infra"
+    },
+    "GitHub Actions": {
+      "item": "GitHub Actions",
+      "row": "tooling"
+    },
+    "Grafana": {
+      "item": "Grafana",
+      "row": "tooling"
+    },
+    "Playwright": {
+      "item": "Playwright",
+      "row": "tooling"
+    },
+    "n8n": {
+      "item": "n8n",
+      "row": "tooling"
+    },
+    "Ollama": {
+      "item": "Ollama",
+      "row": "automation"
+    }
+  },
+  "detection": {
+    "note": "Utilisé par la collecte (phase 2) : fichiers du dépôt et texte recherché, puis conversion via dictionary.",
+    "files": [
+      {
+        "path": "composer.json",
+        "contains": "laravel/framework",
+        "name": "Laravel"
+      },
+      {
+        "path": "composer.json",
+        "contains": "wordpress",
+        "name": "WordPress"
+      },
+      {
+        "path": "package.json",
+        "contains": "\"svelte\"",
+        "name": "Svelte"
+      },
+      {
+        "path": "package.json",
+        "contains": "\"vue\"",
+        "name": "Vue"
+      },
+      {
+        "path": "package.json",
+        "contains": "\"react\"",
+        "name": "React"
+      },
+      {
+        "path": "package.json",
+        "contains": "\"@playwright/test\"",
+        "name": "Playwright"
+      },
+      {
+        "path": "requirements.txt",
+        "contains": "streamlit",
+        "name": "Streamlit"
+      },
+      {
+        "path": "requirements.txt",
+        "contains": "django",
+        "name": "Django"
+      },
+      {
+        "path": "requirements.txt",
+        "contains": "fastapi",
+        "name": "FastAPI"
+      },
+      {
+        "path": "docker-compose.yml",
+        "contains": "image:",
+        "name": "Docker"
+      },
+      {
+        "path": "Dockerfile",
+        "contains": "FROM",
+        "name": "Docker"
+      }
+    ]
+  }
+}
