@@ -14,6 +14,7 @@ while IFS=$'\t' read -r id event status conclusion created; do
   echo "== ${created}  run ${id}  (${event}, ${status}, ${conclusion})"
   # PROFILE_REPORT is the structured line the Homelab package prints once its log is in place.
   gh run view "$id" -R "$REPO" --log 2>/dev/null |
-    grep -E "PROFILE_REPORT|Published|up to date|warning:|stack additions|unknown technologies|stack: projects|##\[error\]" |
-    sed -E 's/^[^\t]*\t[^\t]*\t[0-9TZ:.-]+ //' | head -15 || true
+    sed -E 's/^[^	]*	[^	]*	[^ ]+ //' |
+    grep -E "^(PROFILE_REPORT|Published |Everything is already|warning:|stack additions|unknown technologies \(not|stack: projects|##\[error\])" |
+    head -15 || true
 done
