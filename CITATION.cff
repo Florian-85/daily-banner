@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use Daily Banner, please cite it as below."
+title: "Daily Banner"
+abstract: "A GitHub Action and command-line tool that generates an animated SVG banner for a GitHub profile README, with special-day scenes, bundled fonts and no server."
+type: software
+authors:
+  - family-names: "BERTHET"
+    given-names: "Florian"
+repository-code: "https://github.com/Florian-85/daily-banner"
+url: "https://github.com/Florian-85/daily-banner"
+license: AGPL-3.0-only
+version: 0.1.0
+date-released: "2026-10-27"
+keywords:
+  - github profile readme
+  - animated svg
+  - github action
+  - readme banner

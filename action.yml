@@ -1,5 +1,5 @@
 name: Daily Banner
-description: Generates an animated README banner that changes with the day, and commits it to your repository.
+description: Generates an animated SVG banner for your GitHub profile README that changes with the day, and commits it to your repository.
 author: Florian-85
 branding:
   icon: image
