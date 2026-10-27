@@ -53,6 +53,45 @@ function createText({ font: id = DEFAULT_FONT, backend = "auto" } = {}) {
     return result;
   }
 
+  // Exact ink box of one character, in thousandths of an em with y pointing down from the baseline.
+  // Null when the font does not cover it or it draws nothing (a space). Curve extremes are computed, not control points.
+  const boxes = new Map();
+  function bounds(character) {
+    const glyph = font.glyphs[character];
+    if (!glyph || !glyph[1]) return null;
+    if (!boxes.has(character)) {
+      const tokens = glyph[1].match(/[MLQZ]|-?[0-9.]+/g);
+      const box = { left: Infinity, right: -Infinity, top: Infinity, bottom: -Infinity };
+      const add = (px, py) => {
+        box.left = Math.min(box.left, px); box.right = Math.max(box.right, px);
+        box.top = Math.min(box.top, py); box.bottom = Math.max(box.bottom, py);
+      };
+      let at = 0;
+      let x = 0;
+      let y = 0;
+      while (at < tokens.length) {
+        const command = tokens[at++];
+        if (command === "M" || command === "L") { x = Number(tokens[at++]); y = Number(tokens[at++]); add(x, y); }
+        else if (command === "Q") {
+          const cx = Number(tokens[at++]); const cy = Number(tokens[at++]);
+          const ex = Number(tokens[at++]); const ey = Number(tokens[at++]);
+          for (const [p0, c, p1, axis] of [[x, cx, ex, 0], [y, cy, ey, 1]]) {
+            const denominator = p0 - 2 * c + p1;
+            const t = denominator ? (p0 - c) / denominator : -1;
+            if (t > 0 && t < 1) {
+              const value = (1 - t) * (1 - t) * p0 + 2 * (1 - t) * t * c + t * t * p1;
+              if (axis === 0) add(value, y); else add(x, value);
+            }
+          }
+          add(ex, ey);
+          x = ex; y = ey;
+        }
+      }
+      boxes.set(character, box);
+    }
+    return boxes.get(character);
+  }
+
   const glyphId = character => `u${character.codePointAt(0).toString(16)}`;
 
   // One piece of text. Returns the markup and the width it takes. `maxWidth` squeezes it horizontally to fit.
@@ -111,7 +150,7 @@ function createText({ font: id = DEFAULT_FONT, backend = "auto" } = {}) {
     return [...used].sort().map(character => `<path id="${glyphId(character)}" d="${font.glyphs[character][1]}"/>`).join("");
   }
 
-  return { font, mode, measure, draw, defs, capHeight: font.capHeight / 1000, covers: character => Boolean(font.glyphs[character]) };
+  return { font, mode, measure, draw, defs, bounds, capHeight: font.capHeight / 1000, covers: character => Boolean(font.glyphs[character]) };
 }
 
 module.exports = { createText, loadFont, FONT_IDS, BACKENDS, DEFAULT_FONT };

@@ -43,13 +43,20 @@ function layoutName(name, { highlight = "last", maxWidth, text = createText() })
   const top = BASELINE - Math.round(size * CAP_HEIGHT);
   const initial = pieces.initial;
   const last = pieces.after ?? pieces.rest ?? initial;
+  // The attachment box is the ink of the highlighted letter itself (a lower-case "a", an accent, a descender),
+  // so a hat sits on the real shape. A character the font does not cover keeps the advance box and the cap height.
+  const ink = text.bounds(initial.text);
+  const scale = size / 1000;
+  const box = ink
+    ? { left: initial.x + ink.left * scale, right: initial.x + ink.right * scale, top: BASELINE + ink.top * scale, bottom: BASELINE + ink.bottom * scale }
+    : { left: initial.x, right: initial.x + initial.width, top, bottom: BASELINE };
   return {
     size,
     baseline: BASELINE,
     pieces,
     fits: natural(size) <= maxWidth + 1,
     anchors: {
-      "name.initial": { x: initial.x + initial.width / 2, y: top, left: initial.x, right: initial.x + initial.width, top, bottom: BASELINE, width: initial.width },
+      "name.initial": { x: (box.left + box.right) / 2, y: box.top, ...box, width: box.right - box.left },
       "name.end": { x: last.x + last.width, y: BASELINE, top, bottom: BASELINE },
     },
   };

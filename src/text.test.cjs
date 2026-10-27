@@ -145,15 +145,41 @@ test("every font and backend gives a well-formed, deterministic, reasonably smal
   }
 });
 
-test("the highlighted letter keeps its anchor on the real glyph in every font", () => {
+test("the attachment box of the highlighted letter is the ink of that letter, in every font", () => {
   const { layoutName } = require("./lib/layout.cjs");
+  const anchorOf = (font, name) => {
+    const text = createText({ font });
+    const layout = layoutName(name, { maxWidth: 800, text });
+    return { layout, anchor: layout.anchors["name.initial"], text };
+  };
   for (const id of FONT_IDS) {
-    const text = createText({ font: id });
-    const layout = layoutName("Ada Lovelace", { maxWidth: 610, text });
-    const initial = layout.anchors["name.initial"];
-    assert.equal(layout.pieces.initial.text, "L");
-    const expected = layout.pieces.initial.x + text.measure("L", layout.size);
-    assert.ok(Math.abs(initial.right - expected) <= 1, `${id}: ${initial.right} vs ${expected}`);
-    assert.ok(initial.top < layout.baseline && layout.baseline - initial.top <= layout.size, `${id} cap height`);
+    // A capital stands on the baseline and reaches about the cap height.
+    const capital = anchorOf(id, "Ada Lovelace");
+    const size = capital.layout.size;
+    assert.equal(capital.layout.pieces.initial.text, "L");
+    assert.ok(Math.abs(capital.anchor.bottom - capital.layout.baseline) <= size * 0.05, `${id}: L stands on the baseline`);
+    assert.ok(Math.abs(capital.layout.baseline - capital.anchor.top - size * capital.text.capHeight) <= size * 0.1, `${id}: L reaches the cap height`);
+    assert.ok(capital.anchor.left >= capital.layout.pieces.initial.x - size * 0.1 && capital.anchor.right <= capital.layout.pieces.initial.x + capital.layout.pieces.initial.width + size * 0.1);
+    // A lower-case letter is lower than a capital; a descender goes below the baseline; an accent goes above the capital.
+    const small = anchorOf(id, "ada");
+    assert.ok(small.anchor.top > small.layout.baseline - small.layout.size * small.text.capHeight + 2, `${id}: a is lower than a capital`);
+    const descender = anchorOf(id, "gigi");
+    if (id !== "silkscreen") assert.ok(descender.anchor.bottom > descender.layout.baseline + 2, `${id}: g goes below the baseline`); // the pixel font has no descenders
+    const accent = anchorOf(id, "Éric");
+    const plain = anchorOf(id, "Eric");
+    assert.ok(accent.anchor.top < plain.anchor.top - 2, `${id}: the accent is part of the box`);
+  }
+});
+
+test("the Christmas hat sits on the ink of a low letter, whatever the font", () => {
+  for (const font of ["caveat", "nunito", "poppins"]) {
+    const config = validate({ name: "ada", font, surprise: false });
+    const svg = generate(config, { date: "2026-12-25" }).files.get(OUTPUT.main);
+    const hat = svg.match(/<g transform="translate\(([0-9.]+),([0-9.]+)\) scale\(([0-9.]+)\) translate\(-286,-70\)">/);
+    assert.ok(hat, `${font}: the hat is drawn`);
+    const { layoutName } = require("./lib/layout.cjs");
+    const anchor = layoutName("ada", { maxWidth: 610, text: createText({ font }) }).anchors["name.initial"];
+    assert.ok(Math.abs(Number(hat[1]) - (anchor.left + anchor.right) / 2) < 0.5, `${font}: centred on the letter`);
+    assert.ok(Math.abs(Number(hat[2]) - (anchor.top + (anchor.bottom - anchor.top) * 0.2)) < 0.5, `${font}: placed from the top of the letter`);
   }
 });
