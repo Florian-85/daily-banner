@@ -311,12 +311,20 @@ A user assembles a banner from the catalogue **without writing a pack**, directl
 A composition that works well is the natural starting point of a contributed variant: it can be saved as a variant file
 and proposed to a pack by pull request.
 
+## Status of the text backends (2026-10-27)
+
+The three backends of the decision above are implemented in v0.1 (`src/lib/text.cjs`), with the five launch fonts in
+`fonts/`. Defaults: outlines, Poppins. Choices for this first version, recorded after the review of the first
+pull request: character set = Basic Latin, Latin-1, Latin Extended-A and common punctuation; Regular only; no kerning;
+uncovered characters fall back to the viewer's fonts. The fonts are rebuilt with `scripts/build-fonts.cjs` (a
+dependency-free TrueType reader), which also writes the embeddable subsets.
+
 ## Open questions
 
 1. **Asset versions**: how a pack is versioned and what happens to a variant when an asset it uses is deprecated.
 2. **Migration of the first six scenes**: a pure code move must be byte-identical; generalising the layout will move some pixels. Proposal: byte-identical for the move, a visual tolerance afterwards.
 3. **The highlighted letter**: does it always exist? For a single-word name, fall back to the first letter?
-4. **Variable fonts**: apply the variation tables to offer Bold for Nunito and Caveat, or keep Regular only?
+4. **Variable fonts**: v0.1 keeps Regular only (the default instance of Nunito and Caveat). Bold weights remain open.
 5. **Cultural and religious packs**: who reviews them and with which guideline?
 6. **Cat**: the exact drawing (a sitting cat seen from the front is the simplest to anchor; a side view allows a tail and a back).
 

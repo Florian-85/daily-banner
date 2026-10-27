@@ -1,0 +1,13 @@
+{
+  "id": "geek-days",
+  "name": "Geek days",
+  "description": "Pi Day, Programmer's Day, Geek Pride Day and Ada Lovelace Day (second Tuesday of October).",
+  "license": "CC0-1.0",
+  "events": [
+    { "id": "pi-day", "scene": "pi", "dates": ["03-14"], "theme": "funky" }
+  ],
+  "funky": {
+    "dates": ["05-25", "09-13"],
+    "nthWeekdays": [{ "month": 10, "weekday": 2, "nth": 2 }]
+  }
+}

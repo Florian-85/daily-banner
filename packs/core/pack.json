@@ -1,0 +1,12 @@
+{
+  "id": "core",
+  "name": "Core celebrations",
+  "description": "Christmas, Halloween, New Year and April Fools: universal dates, no brand and no character.",
+  "license": "CC0-1.0",
+  "events": [
+    { "id": "christmas", "scene": "noel", "dates": ["12-24", "12-25", "12-26"], "theme": "funky" },
+    { "id": "halloween", "scene": "halloween", "dates": ["10-31"], "theme": "funky" },
+    { "id": "new-year", "scene": "new-year", "dates": ["01-01"], "theme": "funky" },
+    { "id": "april-fools", "scene": "april-fools", "dates": ["04-01"], "theme": "funky" }
+  ]
+}
