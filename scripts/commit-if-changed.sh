@@ -17,14 +17,15 @@ git config user.name "github-actions[bot]"
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
 git add -- "$dir"
-if git diff --cached --quiet; then
+if git diff --cached --quiet -- "$dir"; then
   echo "The banner did not change: nothing to commit."
   exit 0
 fi
 
-git commit -m "$message"
+# The pathspec keeps anything else already staged out of this commit.
+git commit -m "$message" -- "$dir"
 if ! git push; then
   # Someone pushed while we were generating: replay our single commit on top and try once more.
-  git pull --rebase
+  git pull --rebase --autostash
   git push
 fi

@@ -83,6 +83,20 @@ test("consumer repository: first run commits and pushes, same day is quiet, next
   fs.writeFileSync(path.join(work, "notes.txt"), "unrelated work in progress");
   assert.equal(step("2026-02-12").status, 0);
   assert.equal(git(work, "status", "--porcelain"), "?? notes.txt");
+
+  // Something else already staged is neither a reason to commit nor part of the commit.
+  git(work, "add", "notes.txt");
+  const before = commits();
+  const quiet = step("2026-02-12");
+  assert.equal(quiet.status, 0, quiet.stderr);
+  assert.match(quiet.stdout, /nothing to commit/);
+  assert.equal(commits(), before);
+  assert.equal(git(work, "diff", "--cached", "--name-only"), "notes.txt");
+
+  assert.equal(step("2026-02-13").status, 0);
+  assert.equal(commits(), before + 1);
+  assert.equal(git(work, "show", "--name-only", "--format=", "HEAD").split(String.fromCharCode(10)).some(file => file === "notes.txt"), false);
+  assert.equal(git(work, "diff", "--cached", "--name-only"), "notes.txt");
 });
 
 test("the commit script refuses an output folder outside the repository", { skip: !available("bash") && "bash is required" }, () => {

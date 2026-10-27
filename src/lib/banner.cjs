@@ -9,11 +9,16 @@ const { phrasesFor, drawLayers, SCENES, WATER_LINE, WIDTH, HEIGHT } = require(".
 const SLOT_SECONDS = 7;
 const CHAR_WIDTH = 11.6;
 const TEXT_X = 50;
+// The typed line stops before the mascot; longer phrases are squeezed to fit instead of leaving the picture.
+const MAX_TEXT_WIDTH = 640;
+const SUBTITLE_CHAR_WIDTH = 8.6;
 const MASCOT = { x: 705, y: 48, scale: 0.8 };
 const HALLOWEEN_ORANGE = { dark: "#FF8A1F", light: "#C2410C" };
 
 // Full-width characters (CJK…) take two slots in the typed line.
 const units = text => Array.from(text).reduce((sum, character) => sum + (character.codePointAt(0) >= 0x2e80 ? 2 : 1), 0);
+
+const phraseWidth = text => Math.min(units(text) * CHAR_WIDTH, MAX_TEXT_WIDTH);
 
 function mascotContext(mascot) {
   if (!mascot) return null;
@@ -76,7 +81,7 @@ function banner(T, { config, scene = null, phrases, mascot, dark }) {
   ];
   const cursor = [];
   phrases.forEach((phrase, i) => {
-    const width = units(phrase) * CHAR_WIDTH;
+    const width = phraseWidth(phrase);
     const a = i / count;
     const { keyTimes, values } = keyframes([[0, 0], [a, 0], [a + 0.4 / count, width], [a + 0.84 / count, width], [a + 0.94 / count, 0], [(i + 1) / count, 0], [1, 0]]);
     out.push(`<clipPath id="ph${i}"><rect x="${TEXT_X - 2}" y="110" height="44" width="0"><animate attributeName="width" dur="${total}s" repeatCount="indefinite" keyTimes="${keyTimes}" values="${values}"/></rect></clipPath>`);
@@ -90,11 +95,15 @@ function banner(T, { config, scene = null, phrases, mascot, dark }) {
   out.push(nameMarkup(T, layout, SCENES[shape]?.nameEffect, dark));
   if (shape) out.push(drawLayers(shape, "onName", context));
   phrases.forEach((phrase, i) => {
-    out.push(`<text x="${TEXT_X}" y="142" font-size="23" fill="${T.accent}" textLength="${num(units(phrase) * CHAR_WIDTH)}" lengthAdjust="spacingAndGlyphs" clip-path="url(#ph${i})">${esc(phrase)}</text>`);
+    out.push(`<text x="${TEXT_X}" y="142" font-size="23" fill="${T.accent}" textLength="${num(phraseWidth(phrase))}" lengthAdjust="spacingAndGlyphs" clip-path="url(#ph${i})">${esc(phrase)}</text>`);
   });
   const { keyTimes, values } = keyframes([[0, TEXT_X], ...cursor, [1, TEXT_X]]);
   out.push(`<rect y="122" width="3" height="25" rx="1" fill="${T.accent}"><animate attributeName="x" dur="${total}s" repeatCount="indefinite" keyTimes="${keyTimes}" values="${values}"/><animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/></rect>`);
-  if (config.subtitle) out.push(`<text x="50" y="176" font-size="16" fill="${T.muted}">${esc(config.subtitle)}</text>`);
+  if (config.subtitle) {
+    const wide = units(config.subtitle) * SUBTITLE_CHAR_WIDTH > MAX_TEXT_WIDTH;
+    const fit = wide ? ` textLength="${MAX_TEXT_WIDTH}" lengthAdjust="spacingAndGlyphs"` : "";
+    out.push(`<text x="50" y="176" font-size="16" fill="${T.muted}"${fit}>${esc(config.subtitle)}</text>`);
+  }
   if (config.location) {
     const width = Math.max(80, Math.round(units(config.location) * 7 + 40));
     out.push(`<g transform="translate(50,194)"><rect width="${width}" height="26" rx="13" fill="${T.panel}" stroke="${T.border}"/><circle cx="16" cy="13" r="4" fill="${T.accent2}"><animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/></circle><text x="28" y="18" font-size="12" fill="${T.fg}">${esc(config.location)}</text></g>`);

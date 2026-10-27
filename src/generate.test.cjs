@@ -175,3 +175,15 @@ test("the preview images shown in the README match what the generator draws toda
   }
   assert.ok(compared >= 7, "the README images exist");
 });
+
+test("wide headlines and subtitles are squeezed to stay left of the mascot", () => {
+  for (const text of ["界".repeat(48), "😀".repeat(48), "W".repeat(48)]) {
+    const config = validate({ name: "Ada", headline: [text], subtitle: "界".repeat(35), surprise: false });
+    const svg = generate(config, { date: "2026-02-10" }).files.get(OUTPUT.main);
+    const found = [...svg.matchAll(/x="([0-9]+)"[^>]*textLength="([0-9.]+)"/g)];
+    assert.ok(found.length >= 2, "the text elements were not found");
+    for (const [, x, length] of svg.matchAll(/x="([0-9]+)"[^>]*textLength="([0-9.]+)"/g)) {
+      assert.ok(Number(x) + Number(length) <= 690, `text ends at ${Number(x) + Number(length)}`);
+    }
+  }
+});
