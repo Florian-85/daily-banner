@@ -16,7 +16,7 @@ Status as of the `feat/v0.1-standalone-generator` branch. ✅ done and verified,
 
 ## Licence
 
-- ✅ MIT proposed (`LICENSE`), `package.json` says MIT. ⬜ Confirm the licence and the copyright holder line.
+- ✅ GNU AGPL-3.0-only chosen (`LICENSE`, `package.json`, README, CREDITS) and a name/logo policy (`TRADEMARK.md`). ⬜ Before accepting outside contributions, set up a contributor agreement (CLA), otherwise relicensing or dual licensing is not possible. Not legal advice.
 - ✅ [CREDITS.md](../CREDITS.md): no third-party asset, no font shipped.
 - ⚠️ When the launch fonts are added: licence file next to each font and an entry in the credits.
 

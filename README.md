@@ -148,4 +148,4 @@ The same configuration and date always produce the same bytes.
 - Tests: `npm test` (offline, no dependency).
 ## License
 
-[MIT](LICENSE). The cat and every drawing are original work released under the same license.
+Copyright (C) 2026 Florian-85. [GNU AGPL-3.0](LICENSE): you may use, modify and share the code, and a modified version offered as an online service must publish its source. The cat and every drawing are original work under the same licence. The name and mascot as a brand are covered by [TRADEMARK.md](TRADEMARK.md). Banners you generate are yours.
