@@ -102,6 +102,8 @@ To show the light banner to readers using GitHub's light theme, and the dark one
 | `theme` | `"dark"` | `"light"` |
 | `lang` | `"en"` | `"fr"` |
 | `mascot` | `"cat"` | `"stars"`, `"none"` |
+| `font` | `"poppins"` | `"spectral"`, `"nunito"`, `"caveat"`, `"silkscreen"` |
+| `textBackend` | `"auto"` | `"embedded"`, `"system"` |
 | `timezone` | `"UTC"` | `"Europe/Paris"` |
 | `exclude` | `[]` | `["halloween"]` |
 | `days` | `[]` | `[{ "date": "04-19", "scene": "birthday" }]` |
@@ -134,7 +136,7 @@ The same configuration and date always produce the same bytes.
 
 ## Limits
 
-- Text uses the **viewer's fonts**, each word at a fixed width. Letter shapes differ per machine; positions do not. The five launch fonts (outlined or embedded) are planned, not in v0.1.
+- Text is drawn from five bundled fonts (Poppins, Spectral, Nunito, Caveat, Silkscreen): Latin letters with accents, Regular weight, no kerning. Other scripts (CJK, emoji, Greek, Cyrillic, Arabic...) are drawn by the viewer's fonts at an estimated width, and right-to-left text is not supported.
 - Scenes: Christmas, Halloween, New Year, April Fools, Pi Day, and a birthday scene for your own dates. One cat and a star constellation, plus your own constellation file.
 - English and French celebration phrases. No right-to-left layout.
 - SMIL animations cannot be paused by "reduce motion" settings. Nothing flashes more than 3 times per second (tested).

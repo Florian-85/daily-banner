@@ -5,7 +5,7 @@ Status as of the `feat/v0.1-standalone-generator` branch. ✅ done and verified,
 ## Security and privacy
 
 - ✅ Git history scanned (9 commits): no token, key or password pattern; the only hits were fake test tokens in the (now deleted) legacy tests.
-- ✅ No binary file, image from a third party or font ever committed.
+- ✅ No binary file or third-party image committed. Five OFL fonts are committed as text (glyph outlines in JSON, embeddable subsets in base64) with their licences.
 - ✅ No dependency (nothing to audit, no lockfile).
 - ✅ Output cannot carry markup: hostile names, phrases and labels are escaped (tested); no `href`, script or event attribute in any SVG.
 - ✅ Action inputs reach shell code through environment variables only; the commit script refuses paths outside the repository and commits only the output folder (tested).
@@ -17,8 +17,8 @@ Status as of the `feat/v0.1-standalone-generator` branch. ✅ done and verified,
 ## Licence
 
 - ✅ GNU AGPL-3.0-only chosen (`LICENSE`, `package.json`, README, CREDITS) and a name/logo policy (`TRADEMARK.md`). ⬜ Before accepting outside contributions, set up a contributor agreement (CLA), otherwise relicensing or dual licensing is not possible. Not legal advice.
-- ✅ [CREDITS.md](../CREDITS.md): no third-party asset, no font shipped.
-- ⚠️ When the launch fonts are added: licence file next to each font and an entry in the credits.
+- ✅ [CREDITS.md](../CREDITS.md): the five fonts, their licences and copyright lines; no other third-party asset.
+- ✅ Each font folder carries its `OFL.txt` (tested).
 
 ## Documentation
 

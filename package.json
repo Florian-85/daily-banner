@@ -5,11 +5,12 @@
   "license": "AGPL-3.0-only",
   "private": true,
   "bin": { "daily-banner": "bin/daily-banner.cjs" },
-  "files": ["bin", "src", "packs", "action.yml", "scripts", "examples", "docs", "LICENSE", "TRADEMARK.md"],
+  "files": ["bin", "src", "packs", "fonts", "action.yml", "scripts", "examples", "docs", "LICENSE", "TRADEMARK.md"],
   "scripts": {
     "test": "node --test src/*.test.cjs",
     "build:sample": "node bin/daily-banner.cjs generate --config examples/daily-banner.json --out out --date 2026-02-10",
-    "build:examples": "node scripts/build-examples.cjs"
+    "build:examples": "node scripts/build-examples.cjs",
+    "build:fonts": "node scripts/build-fonts.cjs"
   },
   "engines": { "node": ">=20" }
 }

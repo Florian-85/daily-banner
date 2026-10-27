@@ -15,6 +15,8 @@ Mistakes are reported in plain words, for example `"theme" must be one of "dark"
 | `lang` | `"en"` | Language of the celebration phrases: `"en"` or `"fr"`. |
 | `theme` | `"dark"` | Look of `daily-banner.svg`: `"dark"` or `"light"`. The `-dark` and `-light` files always exist. |
 | `mascot` | `"cat"` | `"cat"`, `"stars"`, `"none"`, or `{ "file": "my-mascot.json" }`. |
+| `font` | `"poppins"` | `"poppins"` (sans-serif), `"spectral"` (serif), `"nunito"` (rounded), `"caveat"` (handwriting) or `"silkscreen"` (pixel). |
+| `textBackend` | `"auto"` | How the text is drawn, see [Fonts](#fonts). `"auto"` is `"outlines"`. |
 | `packs` | `["core", "geek-days"]` | Which sets of special days to use (see below). |
 | `exclude` | `[]` | Scene ids to switch off, e.g. `["halloween"]`. The day keeps its colourful theme. |
 | `days` | `[]` | Your own days: `{ "date": "04-19", "scene": "birthday" }`. Optional `"theme": "normal"` removes the colourful theme. |
@@ -80,9 +82,25 @@ right and center are computed for you.
 The generator never writes a date or a scene name in the SVG or the logs (a forced `--scene` is the only exception).
 But a `days` entry sits in **your** `daily-banner.json`: in a public repository, that file is public.
 
+## Fonts
+
+Five fonts are bundled, all under the SIL Open Font License (see [CREDITS](../CREDITS.md)): **Poppins**, **Spectral**,
+**Nunito**, **Caveat** and **Silkscreen**. Regular weight only; the name is thickened slightly (except in Silkscreen).
+They cover Basic Latin, Latin-1 and Latin Extended-A (the letters of most European languages) and common punctuation.
+There is no kerning: letters sit at their natural widths.
+
+| `textBackend` | What it does | Use it when |
+|---|---|---|
+| `outlines` (what `auto` means) | Letters are drawn as vector shapes. Identical on every machine, tiny files. The text cannot be selected (the picture carries a label and a title). | Almost always. |
+| `embedded` | Real text, with the font carried inside the picture (8 to 30 KB more). The text can be selected. | You want selectable text. |
+| `system` | The viewer's own fonts, squeezed to the same widths. Smallest files, letter shapes vary per machine. | Size matters more than looks. |
+
+All three place everything in the same spot, so the hat, the snow and the other scenes land on the right letter
+whichever you choose. A character the font does not cover (Chinese, emoji, Greek, Cyrillic...) is drawn by the viewer's
+fonts at a reserved width.
+
 ## Not in v0.1
 
-Embedded or outlined fonts (the five launch fonts of the design document), pixel-art and SVG-drawing mascots,
-pack folders written by users, violence-tagged variants, an asset catalogue, `exclude-tags`. They are decided and
-planned, not dropped: see [design-anchors-variants.md](design-anchors-variants.md). Text uses the reader's own fonts
-with a fixed width per word, so anchors stay put but letter shapes differ between machines.
+Pixel-art and SVG-drawing mascots, pack folders written by users, violence-tagged variants, an asset catalogue,
+`exclude-tags`, bold weights and kerning, more scripts for the bundled fonts. They are decided and planned, not dropped:
+see [design-anchors-variants.md](design-anchors-variants.md).

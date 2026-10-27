@@ -1,29 +1,17 @@
 "use strict";
 // Lays the name out and publishes anchors, so scenes never contain coordinates.
-// Text is drawn with the viewer's fonts but each piece is given a fixed width (textLength), which keeps
-// the anchors stable on every machine. The widths below are estimates; textLength makes them exact.
+// Widths come from the real metrics of the bundled font, so the anchors are exact whichever text backend draws the letters.
+const { createText } = require("./text.cjs");
 
 const NAME_X = 48;
 const BASELINE = 100;
 const MAX_SIZE = 54;
 const MIN_SIZE = 28;
-const CAP_HEIGHT = 0.72;
-
-function glyphWidth(character) {
-  const code = character.codePointAt(0);
-  if (code >= 0x2e80) return 1; // CJK and other full-width characters
-  if ("ijlt.,;:'!|".includes(character)) return 0.3;
-  if ("fr ".includes(character)) return 0.4;
-  if ("mwMW@".includes(character)) return 0.88;
-  if (character !== character.toLowerCase()) return 0.66;
-  if (/[0-9]/.test(character)) return 0.58;
-  return 0.57;
-}
-
-const measure = (text, size) => Array.from(text).reduce((sum, character) => sum + glyphWidth(character), 0) * size;
 
 // name: "Ada Lovelace"; highlight: "last" (default) or "first" word; maxWidth: room before the mascot.
-function layoutName(name, { highlight = "last", maxWidth }) {
+function layoutName(name, { highlight = "last", maxWidth, text = createText() }) {
+  const measure = (value, size) => text.measure(value, size);
+  const CAP_HEIGHT = text.capHeight;
   const words = name.split(" ");
   const index = highlight === "first" ? 0 : words.length - 1;
   const characters = Array.from(words[index]);
@@ -67,4 +55,4 @@ function layoutName(name, { highlight = "last", maxWidth }) {
   };
 }
 
-module.exports = { layoutName, measure, NAME_X, BASELINE };
+module.exports = { layoutName, NAME_X, BASELINE };

@@ -8,6 +8,7 @@ const { selectDay, themesFor, parseDate } = require("./calendar.cjs");
 const { buildCalendar } = require("./packs.cjs");
 const { loadMascot } = require("./mascots.cjs");
 const { layoutName } = require("./layout.cjs");
+const { createText } = require("./text.cjs");
 const { banner, phrasesFor } = require("./banner.cjs");
 const { SCENES, SCENE_IDS } = require("./scenes.cjs");
 
@@ -61,7 +62,7 @@ function generate(config, { date, scene, funky } = {}) {
   const override = { scene, funky };
   checkScenes(config, override);
   const mascot = loadMascot(config.mascot);
-  const layout = layoutName(config.name, { highlight: config.highlight, maxWidth: mascot ? 610 : 800 });
+  const layout = layoutName(config.name, { highlight: config.highlight, maxWidth: mascot ? 610 : 800, text: createText({ font: config.font, backend: config.textBackend }) });
   if (!layout.fits) throw new Error(`The name "${config.name}" is too wide for the banner even in small letters: shorten it.`);
   let selection = select(config, date, override);
   // A scene whose anchors the layout or the mascot can not provide is not offered: the day keeps its theme only.

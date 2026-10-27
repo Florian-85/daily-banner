@@ -88,7 +88,8 @@ test("hostile text can not inject markup", () => {
       for (const [tag] of content.matchAll(/<[A-Za-z][^>"']*(?:"[^"]*"[^>"']*|'[^']*'[^>"']*)*>/g)) {
         assert.doesNotMatch(tag.replace(/"[^"]*"|'[^']*'/g, ""), /\son[a-z]+\s*=/i, tag.slice(0, 80));
       }
-      assert.doesNotMatch(content, /\bhref=|xlink:/, "no external reference at all");
+      assert.doesNotMatch(content, /xlink:/, "no external reference");
+      for (const [, value] of content.matchAll(/ href="([^"]*)"/g)) assert.match(value, /^#[A-Za-z0-9_-]+$/, "only references to shapes inside the same picture");
     }
   }
 });
@@ -180,9 +181,9 @@ test("wide headlines and subtitles are squeezed to stay left of the mascot", () 
   for (const text of ["界".repeat(48), "😀".repeat(48), "W".repeat(48)]) {
     const config = validate({ name: "Ada", headline: [text], subtitle: "界".repeat(35), surprise: false });
     const svg = generate(config, { date: "2026-02-10" }).files.get(OUTPUT.main);
-    const found = [...svg.matchAll(/x="([0-9]+)"[^>]*textLength="([0-9.]+)"/g)];
-    assert.ok(found.length >= 2, "the text elements were not found");
-    for (const [, x, length] of svg.matchAll(/x="([0-9]+)"[^>]*textLength="([0-9.]+)"/g)) {
+    const found = [...svg.matchAll(/x="([0-9.]+)"[^>]*textLength="([0-9.]+)"/g)];
+    assert.ok(found.length >= 1, "the text elements were not found");
+    for (const [, x, length] of svg.matchAll(/x="([0-9.]+)"[^>]*textLength="([0-9.]+)"/g)) {
       assert.ok(Number(x) + Number(length) <= 690, `text ends at ${Number(x) + Number(length)}`);
     }
   }

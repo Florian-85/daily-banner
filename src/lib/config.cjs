@@ -8,8 +8,10 @@ const { THEME_NAMES } = require("./palette.cjs");
 
 const LANGUAGES = ["en", "fr"];
 const MAIN_THEMES = ["dark", "light"];
+const { FONT_IDS, BACKENDS } = require("./text.cjs");
+
 const LIMITS = { name: 32, headlineCount: 8, headline: 48, subtitle: 70, location: 24, alt: 200, days: 40 };
-const KEYS = ["$schema", "name", "highlight", "headline", "subtitle", "location", "lang", "theme", "mascot", "packs", "exclude", "days", "surprise", "timezone", "alt"];
+const KEYS = ["$schema", "name", "highlight", "headline", "subtitle", "location", "lang", "theme", "mascot", "font", "textBackend", "packs", "exclude", "days", "surprise", "timezone", "alt"];
 
 const DEFAULTS = {
   highlight: "last",
@@ -19,6 +21,8 @@ const DEFAULTS = {
   lang: "en",
   theme: "dark",
   mascot: "cat",
+  font: "poppins",
+  textBackend: "auto",
   packs: ["core", "geek-days"],
   exclude: [],
   days: [],
@@ -82,6 +86,8 @@ function validate(input, { directory = process.cwd() } = {}) {
   if (input.alt !== undefined) config.alt = text(input.alt, "alt", { max: LIMITS.alt, required: true });
   if (input.lang !== undefined) config.lang = oneOf(input.lang, "lang", LANGUAGES);
   if (input.theme !== undefined) config.theme = oneOf(input.theme, "theme", MAIN_THEMES);
+  if (input.font !== undefined) config.font = oneOf(input.font, "font", FONT_IDS);
+  if (input.textBackend !== undefined) config.textBackend = oneOf(input.textBackend, "textBackend", BACKENDS);
   if (input.surprise !== undefined) {
     if (typeof input.surprise !== "boolean") fail('"surprise" must be true or false.');
     config.surprise = input.surprise;

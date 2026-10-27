@@ -3,22 +3,16 @@
 // Pure function of its arguments: the same inputs always give the same bytes.
 
 const { FONT, NS, esc, num, keyframes } = require("./svg.cjs");
+const { createText } = require("./text.cjs");
 const { layoutName } = require("./layout.cjs");
 const { phrasesFor, drawLayers, SCENES, WATER_LINE, WIDTH, HEIGHT } = require("./scenes.cjs");
 
 const SLOT_SECONDS = 7;
-const CHAR_WIDTH = 11.6;
 const TEXT_X = 50;
 // The typed line stops before the mascot; longer phrases are squeezed to fit instead of leaving the picture.
 const MAX_TEXT_WIDTH = 640;
-const SUBTITLE_CHAR_WIDTH = 8.6;
 const MASCOT = { x: 705, y: 48, scale: 0.8 };
 const HALLOWEEN_ORANGE = { dark: "#FF8A1F", light: "#C2410C" };
-
-// Full-width characters (CJK…) take two slots in the typed line.
-const units = text => Array.from(text).reduce((sum, character) => sum + (character.codePointAt(0) >= 0x2e80 ? 2 : 1), 0);
-
-const phraseWidth = text => Math.min(units(text) * CHAR_WIDTH, MAX_TEXT_WIDTH);
 
 function mascotContext(mascot) {
   if (!mascot) return null;
@@ -31,9 +25,9 @@ function mascotContext(mascot) {
   };
 }
 
-function nameMarkup(T, layout, effect, dark) {
+function nameMarkup(T, layout, effect, dark, textEngine) {
   const { size, baseline, pieces } = layout;
-  const text = (piece, fill = T.fg, extra = "") => `<text x="${piece.x}" y="${baseline}" font-size="${size}" font-weight="700" fill="${fill}" textLength="${piece.width}" lengthAdjust="spacingAndGlyphs"${extra}>${esc(piece.text)}</text>`;
+  const text = (piece, fill = T.fg) => textEngine.draw({ text: piece.text, x: piece.x, y: baseline, size, fill, bold: true }).markup;
   const { before, initial, rest, after } = pieces;
   const tail = [rest, after].filter(Boolean);
   const out = [];
@@ -63,7 +57,9 @@ function nameMarkup(T, layout, effect, dark) {
 // config: validated configuration; options: { scene, phrases (already ordered), T, dark, mascot, dayOfYear }
 function banner(T, { config, scene = null, phrases, mascot, dark }) {
   const shape = SCENES[scene] ? scene : null;
-  const layout = layoutName(config.name, { highlight: config.highlight, maxWidth: mascot ? 610 : 800 });
+  const textEngine = createText({ font: config.font, backend: config.textBackend });
+  const layout = layoutName(config.name, { highlight: config.highlight, maxWidth: mascot ? 610 : 800, text: textEngine });
+  const phraseWidth = phrase => Math.min(textEngine.measure(phrase, 23), MAX_TEXT_WIDTH);
   const placed = mascotContext(mascot);
   const anchor = name => layout.anchors[name] ?? null;
   const context = { T, dark, anchor, mascot: placed, layout };
@@ -87,34 +83,32 @@ function banner(T, { config, scene = null, phrases, mascot, dark }) {
     out.push(`<clipPath id="ph${i}"><rect x="${TEXT_X - 2}" y="110" height="44" width="0"><animate attributeName="width" dur="${total}s" repeatCount="indefinite" keyTimes="${keyTimes}" values="${values}"/></rect></clipPath>`);
     cursor.push([a, TEXT_X], [a + 0.4 / count, TEXT_X + width], [a + 0.84 / count, TEXT_X + width], [a + 0.94 / count, TEXT_X]);
   });
-  out.push("</defs>",
+  const glyphSlot = out.length;
+  out.push("", "</defs>",
     `<rect x="0.5" y="0.5" width="899" height="239" rx="12" fill="url(#g)" stroke="${T.border}"/>`,
     '<rect x="1" y="1" width="898" height="238" rx="12" fill="url(#dots)" opacity="0.55"/>',
     '<rect x="1" y="1" width="898" height="238" rx="12" fill="url(#glow)"/>');
   if (shape) out.push(drawLayers(shape, "behind", context));
-  out.push(nameMarkup(T, layout, SCENES[shape]?.nameEffect, dark));
+  out.push(nameMarkup(T, layout, SCENES[shape]?.nameEffect, dark, textEngine));
   if (shape) out.push(drawLayers(shape, "onName", context));
   phrases.forEach((phrase, i) => {
-    out.push(`<text x="${TEXT_X}" y="142" font-size="23" fill="${T.accent}" textLength="${num(phraseWidth(phrase))}" lengthAdjust="spacingAndGlyphs" clip-path="url(#ph${i})">${esc(phrase)}</text>`);
+    out.push(textEngine.draw({ text: phrase, x: TEXT_X, y: 142, size: 23, fill: T.accent, maxWidth: MAX_TEXT_WIDTH, attributes: `clip-path="url(#ph${i})"` }).markup);
   });
   const { keyTimes, values } = keyframes([[0, TEXT_X], ...cursor, [1, TEXT_X]]);
   out.push(`<rect y="122" width="3" height="25" rx="1" fill="${T.accent}"><animate attributeName="x" dur="${total}s" repeatCount="indefinite" keyTimes="${keyTimes}" values="${values}"/><animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/></rect>`);
-  if (config.subtitle) {
-    const wide = units(config.subtitle) * SUBTITLE_CHAR_WIDTH > MAX_TEXT_WIDTH;
-    const fit = wide ? ` textLength="${MAX_TEXT_WIDTH}" lengthAdjust="spacingAndGlyphs"` : "";
-    out.push(`<text x="50" y="176" font-size="16" fill="${T.muted}"${fit}>${esc(config.subtitle)}</text>`);
-  }
+  if (config.subtitle) out.push(textEngine.draw({ text: config.subtitle, x: 50, y: 176, size: 16, fill: T.muted, maxWidth: MAX_TEXT_WIDTH }).markup);
   if (config.location) {
-    const width = Math.max(80, Math.round(units(config.location) * 7 + 40));
-    out.push(`<g transform="translate(50,194)"><rect width="${width}" height="26" rx="13" fill="${T.panel}" stroke="${T.border}"/><circle cx="16" cy="13" r="4" fill="${T.accent2}"><animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/></circle><text x="28" y="18" font-size="12" fill="${T.fg}">${esc(config.location)}</text></g>`);
+    const width = Math.max(80, Math.round(textEngine.measure(config.location, 12) + 40));
+    out.push(`<g transform="translate(50,194)"><rect width="${width}" height="26" rx="13" fill="${T.panel}" stroke="${T.border}"/><circle cx="16" cy="13" r="4" fill="${T.accent2}"><animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/></circle>${textEngine.draw({ text: config.location, x: 28, y: 18, size: 12, fill: T.fg }).markup}</g>`);
   }
   if (mascot) {
     out.push(`<g transform="translate(${MASCOT.x},${MASCOT.y}) scale(${MASCOT.scale})">${mascot.svg(T)}</g>`);
     if (shape) out.push(drawLayers(shape, "onMascot", context));
   }
   if (shape) out.push(drawLayers(shape, "overlay", context));
+  out[glyphSlot] = textEngine.defs();
   out.push("</svg>");
   return out.join("\n");
 }
 
-module.exports = { banner, phrasesFor, WATER_LINE, units };
+module.exports = { banner, phrasesFor, WATER_LINE };
