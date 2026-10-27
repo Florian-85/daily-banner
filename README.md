@@ -1,8 +1,13 @@
-# Daily Banner
+# Daily Banner: an animated SVG banner for your GitHub profile README
 
-An animated banner for your GitHub profile README. It types your headline, a little cat watches, and on special days
-(Christmas, Halloween, Pi Day…) the scene changes by itself. No server, no token, no dependency: a GitHub Action draws
-one SVG per day in **your** repository.
+Daily Banner is a free, open-source **GitHub Action and command-line tool that generates an animated SVG banner for
+your GitHub profile README**. It types your headline, a little cat watches, and on special days (Christmas, Halloween,
+Pi Day…) the scene changes by itself. No server, no token, no dependency: the Action draws one SVG a day and commits it
+to **your own** repository, so your profile never depends on someone else's web service.
+
+[![Tests](https://github.com/Florian-85/daily-banner/actions/workflows/tests.yml/badge.svg)](https://github.com/Florian-85/daily-banner/actions/workflows/tests.yml)
+[![Release](https://img.shields.io/github/v/release/Florian-85/daily-banner)](https://github.com/Florian-85/daily-banner/releases)
+[![Licence: AGPL-3.0](https://img.shields.io/badge/licence-AGPL--3.0-blue)](LICENSE)
 
 <p align="center">
   <img src="docs/img/default-dark.svg" alt="Daily Banner, dark theme" width="100%">
@@ -142,6 +147,51 @@ The same configuration and date always produce the same bytes.
 - SMIL animations cannot be paused by "reduce motion" settings. Nothing flashes more than 3 times per second (tested).
 - No hosted URL mode: the evaluation concluded **no-go for v0.1** ([docs/web-option-cloudflare.md](docs/web-option-cloudflare.md)).
 - Not verified yet on a real public README: the display after a first scheduled run (see [the checklist](docs/publication-checklist.md)). Reports are welcome.
+
+## How it differs from other profile README tools
+
+| | Daily Banner | Tools served from a web address (for example a typing-text or stats image URL) |
+|---|---|---|
+| Where the picture is made | A GitHub Action, in your repository, once a day | A third-party server, when a reader opens your profile |
+| If the service goes down | Nothing changes: the file is already in your repository | The image can break |
+| Your data | Stays in your repository | Goes through a hosted URL |
+| Setup | A config file and a workflow, run once | One image URL |
+| Changes with the day | Yes: special-day scenes and a rotating headline | Not built in |
+
+Daily Banner trades the one-line URL for independence from any server. A hosted option may come later (see
+[the study](docs/web-option-cloudflare.md)); today the Action is the only way to use it.
+
+## Frequently asked questions
+
+**How do I add an animated banner to my GitHub profile README?**
+Create `daily-banner.json`, add the workflow from the [Quick setup](#-quick-setup), run it once from the Actions tab, then
+add one `<img>` tag. The banner updates itself every day.
+
+**Does it work with the dark and light modes of GitHub?**
+Yes. The Action writes `daily-banner-dark.svg` and `daily-banner-light.svg`; use the `<picture>` snippet above to show the
+right one.
+
+**Do I need a token, a server or an account somewhere?**
+No. The workflow uses the built-in `contents: write` permission to commit the picture to your repository. Nothing is
+sent anywhere.
+
+**Is the animation shown on GitHub?**
+Yes. The banner is an SVG with SMIL animation inside an `<img>` tag, which GitHub displays and animates. It contains no
+script and makes no external request.
+
+**Can I change the fonts, the language or the mascot?**
+Yes: five bundled fonts (Poppins, Spectral, Nunito, Caveat, Silkscreen), English or French celebration phrases, and a cat,
+a star constellation, your own constellation file or no mascot. See [customization](docs/customization.md).
+
+**Can I use it for a company or an organisation profile?**
+Yes, for any GitHub profile or repository README. The licence is the GNU AGPL-3.0; the pictures you generate are yours.
+
+**Why does my banner not change from one day to the next?**
+Check that the workflow ran (Actions tab) and see the [troubleshooting](#troubleshooting) table: caching, the time zone and
+GitHub pausing scheduled workflows after 60 days without activity are the usual causes.
+
+**Is there a web address I can paste instead of installing the Action?**
+Not yet. See [the study](docs/web-option-cloudflare.md) and the open issue about it.
 
 ## More
 
