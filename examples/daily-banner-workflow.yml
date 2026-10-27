@@ -1,0 +1,26 @@
+# Copy this file to .github/workflows/daily-banner.yml in your profile repository
+# (the repository named exactly like your GitHub username).
+name: Daily Banner
+
+on:
+  workflow_dispatch: # lets you run it by hand the first time (Actions tab > Daily Banner > Run workflow)
+  schedule:
+    - cron: "5 0 * * *" # then every day at 00:05 UTC
+
+permissions:
+  contents: write # the only permission needed: the workflow commits the SVG files
+
+concurrency:
+  group: daily-banner
+  cancel-in-progress: true
+
+jobs:
+  banner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: Florian-85/daily-banner@v0.1.0
+        with:
+          config: daily-banner.json # your settings, next to the README
+          output-dir: assets # where daily-banner.svg is written

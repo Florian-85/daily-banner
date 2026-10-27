@@ -1,5 +1,10 @@
 # Export from the Homelab generator
 
+> **Update for v0.1.** The banner engine no longer contains the name, the badger, the golden snitch, the sabres or any
+> owner constant: it is configured by `daily-banner.json` (see the README). The profile-specific code (cards, collection,
+> publication, `tools/homelab-report.sh`, the sample profile configuration) moved unchanged to `legacy/profile/`. The
+> tables below describe the original export and are kept as history.
+
 This repository starts from the profile generator that runs in the owner's private Homelab repository. From now on,
 **all development happens here**. The Homelab copy is **frozen**: it keeps running so we can see whether the first real
 tests hold up over time, and nothing is changed there except one log line (see below).

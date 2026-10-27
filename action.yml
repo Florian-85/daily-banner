@@ -1,0 +1,45 @@
+name: Daily Banner
+description: Generates an animated README banner that changes with the day, and commits it to your repository.
+author: Florian-85
+branding:
+  icon: image
+  color: blue
+
+inputs:
+  config:
+    description: Path of your configuration file, relative to the repository root.
+    default: daily-banner.json
+  output-dir:
+    description: Folder that receives daily-banner.svg, daily-banner-dark.svg and daily-banner-light.svg.
+    default: assets
+  date:
+    description: Day to draw (YYYY-MM-DD). Leave empty to use today in the time zone of your configuration.
+    default: ""
+  commit:
+    description: Commit and push the files when they changed. Needs "permissions - contents - write" in your workflow.
+    default: "true"
+  commit-message:
+    description: Message of that commit.
+    default: "chore: update daily banner"
+
+runs:
+  using: composite
+  steps:
+    - name: Generate the banner
+      shell: bash
+      env:
+        DB_CONFIG: ${{ inputs.config }}
+        DB_OUTPUT_DIR: ${{ inputs.output-dir }}
+        DB_DATE: ${{ inputs.date }}
+      run: |
+        args=(generate --config "$DB_CONFIG" --out "$DB_OUTPUT_DIR")
+        if [ -n "$DB_DATE" ]; then args+=(--date "$DB_DATE"); fi
+        node "$GITHUB_ACTION_PATH/bin/daily-banner.cjs" "${args[@]}"
+
+    - name: Commit the banner when it changed
+      if: ${{ inputs.commit == 'true' }}
+      shell: bash
+      env:
+        DB_OUTPUT_DIR: ${{ inputs.output-dir }}
+        DB_MESSAGE: ${{ inputs.commit-message }}
+      run: bash "$GITHUB_ACTION_PATH/scripts/commit-if-changed.sh"

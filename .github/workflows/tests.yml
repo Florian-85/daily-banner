@@ -19,10 +19,35 @@ jobs:
 
       # Offline only: no secret, no token, no network call.
       - name: Unit tests
-        run: node --test src/*.test.cjs
+        run: npm test
 
-      - name: Build the sample profile
+      - name: Tests of the previous profile generator (kept for reference)
+        run: npm run test:legacy
+
+      - name: Build the example banner
         run: |
-          node src/build-profile.cjs --out "$RUNNER_TEMP/out" --date 2026-02-10
-          count="$(find "$RUNNER_TEMP/out" -name '*.svg' | wc -l)"
-          test "$count" -ge 40 || { echo "::error::Only $count SVG files generated"; exit 1; }
+          npm run build:sample
+          count="$(find out -name '*.svg' | wc -l)"
+          test "$count" -eq 3 || { echo "::error::Expected 3 SVG files, got $count"; exit 1; }
+
+  # The same steps a user's workflow runs, using the action from this very checkout.
+  action:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - uses: ./
+        with:
+          config: examples/daily-banner.json
+          output-dir: ${{ runner.temp }}/banner
+          date: "2026-10-31"
+          commit: "false"
+
+      - name: The three files exist
+        run: |
+          for file in daily-banner.svg daily-banner-dark.svg daily-banner-light.svg; do
+            test -s "$RUNNER_TEMP/banner/$file" || { echo "::error::$file is missing"; exit 1; }
+          done

@@ -1,0 +1,9 @@
+{
+  "id": "holidays-fr",
+  "name": "Jours fériés France",
+  "description": "French public holidays, Easter-based ones included. Funky theme only, no scene.",
+  "license": "CC0-1.0",
+  "funky": {
+    "frenchHolidays": true
+  }
+}
