@@ -14,7 +14,7 @@ one SVG per day in **your** repository.
   <img src="docs/img/default-light.svg" alt="Light theme" width="49%">
 </p>
 
-> **Status: v0.1, pre-release.** Works end to end, limited on purpose (see [Limits](#limits)). Not yet published.
+> **Status: v0.1.0, first release.** Works end to end, limited on purpose (see [Limits](#limits)). Please report anything that does not work for you in an issue.
 
 ## ⚡ Quick setup
 
@@ -141,7 +141,7 @@ The same configuration and date always produce the same bytes.
 - English and French celebration phrases. No right-to-left layout.
 - SMIL animations cannot be paused by "reduce motion" settings. Nothing flashes more than 3 times per second (tested).
 - No hosted URL mode: the evaluation concluded **no-go for v0.1** ([docs/web-option-cloudflare.md](docs/web-option-cloudflare.md)).
-- Not verified yet: display on a real public GitHub README after a first scheduled run (see [the checklist](docs/publication-checklist.md)).
+- Not verified yet on a real public README: the display after a first scheduled run (see [the checklist](docs/publication-checklist.md)). Reports are welcome.
 
 ## More
 
