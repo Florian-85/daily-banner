@@ -8,7 +8,6 @@
   "files": ["bin", "src", "packs", "action.yml", "scripts", "examples", "docs", "LICENSE"],
   "scripts": {
     "test": "node --test src/*.test.cjs",
-    "test:legacy": "node --test legacy/profile/*.test.cjs",
     "build:sample": "node bin/daily-banner.cjs generate --config examples/daily-banner.json --out out --date 2026-02-10",
     "build:examples": "node scripts/build-examples.cjs"
   },

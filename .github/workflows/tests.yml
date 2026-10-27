@@ -21,9 +21,6 @@ jobs:
       - name: Unit tests
         run: npm test
 
-      - name: Tests of the previous profile generator (kept for reference)
-        run: npm run test:legacy
-
       - name: Build the example banner
         run: |
           npm run build:sample

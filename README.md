@@ -145,8 +145,7 @@ The same configuration and date always produce the same bytes.
 
 - [Customization](docs/customization.md) · [Design: anchors, variants, fonts, assets](docs/design-anchors-variants.md) · [Web option study](docs/web-option-cloudflare.md) · [Publication checklist](docs/publication-checklist.md)
 - [Origin of the code](docs/export-from-homelab.md) · [Credits](CREDITS.md)
-- Tests: `npm test` (offline, no dependency). The previous profile generator is kept under [legacy/](legacy/) for reference only.
-
+- Tests: `npm test` (offline, no dependency).
 ## License
 
 [MIT](LICENSE). The cat and every drawing are original work released under the same license.
