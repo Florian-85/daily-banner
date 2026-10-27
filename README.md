@@ -159,7 +159,7 @@ The same configuration and date always produce the same bytes.
 | Changes with the day | Yes: special-day scenes and a rotating headline | Not built in |
 
 Daily Banner trades the one-line URL for independence from any server. A hosted option may come later (see
-[the study](docs/web-option-cloudflare.md)); today the Action is the only way to use it.
+[the study](docs/web-option-cloudflare.md)); today the Action is the recommended way to get a banner that updates by itself, and the command line (see [Preview on your computer](#preview-on-your-computer)) generates the same files locally.
 
 ## Frequently asked questions
 
