@@ -170,7 +170,7 @@ test("the preview images shown in the README match what the generator draws toda
     for (const mode of ["dark", "light"]) {
       const file = path.join(folder, `${name}-${mode}.svg`);
       if (!fs.existsSync(file)) continue;
-      assert.equal(fs.readFileSync(file, "utf8"), files.get(`daily-banner-${mode}.svg`), `${name}-${mode}.svg is stale: run npm run build:examples`);
+      assert.equal(fs.readFileSync(file, "utf8").split(String.fromCharCode(13)).join(""), files.get(`daily-banner-${mode}.svg`), `${name}-${mode}.svg is stale: run npm run build:examples`);
       compared += 1;
     }
   }
